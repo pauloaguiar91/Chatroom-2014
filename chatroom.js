@@ -42,13 +42,23 @@
             })
         }
 
+        function typingAreaEventHandler(event) {
+            event.which = event.which || event.keyCode;
+
+            //enter button click
+            if(event.which == 13) {
+                event.preventDefault();
+                $('#bottomContainer').find('button').trigger('click');
+            }
+        }
+
         function setupEvents() {
             $('#bottomContainer').find('button').on('click', sendButtonClickHandler);
             $('#chatSettingsIcon').on('click', settingsIconClickHandler);
             $('#chatHelpIcon').on('click', helpIconClickHandler);
             $('#chatLoginButton').on('click', loginButtonClickHandler);
+            $('#bottomContainer').find('textarea').on('keydown', function(event) { typingAreaEventHandler(event) });
         }
-
 
         this.init = function() {
             setupEvents();

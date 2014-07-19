@@ -1,0 +1,23 @@
+@media(max-width: 768px) {
+
+}
+
+@media(max-width: 420px) {
+  #bottomContainer textarea {
+    width: 55%;
+  }
+
+  #chatIconContainer {
+    width: 15%;
+
+    #chatSettingsIcon {
+      left: 0
+    }
+  }
+
+
+}
+
+@media (min-width: 320px) {
+
+}

@@ -37,11 +37,15 @@ body {
 #chatMainArea {
   width: 80%;
   height: 85%;
-  padding: 20px;
+  padding: 0 10px 10px 10px;
   text-align: left;
   border-bottom: 2px solid darkslateblue;
   float: right;
   overflow-y: auto;
+
+  p {
+    margin-bottom: 5px;
+  }
 }
 
 #chatIconContainer {
@@ -127,3 +131,5 @@ body {
     border-left: 2px solid darkslateblue;
   }
 }
+
+@import 'mediaQueries.scss';
