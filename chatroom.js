@@ -7,25 +7,23 @@
 
         }
 
-        function loadUsers() {
-            $.post("server/controls.php", {'action': 'login', 'user': nickname }, function(e) {
-                var json = $.parseJSON(e);
-
-                for(var i=0; i < json.users.length; i++) {
-                    $('#chatOnlineUsersList').append('<li>'+ json.users[i] + '</li>');
-                }
-            });
+        function login() {
+            $.post("server/controls.php", {'action': 'login', 'user': nickname });
         }
 
         function startChat() {
-            loadUsers();
-            loadRecentHistory();
+            login();
+            updateChat();
         }
 
         function sendButtonClickHandler() {
             var $textArea = $('#bottomContainer').find('textarea');
 
-            $('#chatMainArea').append('<p>'+nickname+": "+$textArea.val());
+            if($textArea.val().length < 1)
+                return;
+
+            $.post("server/controls.php", {'action': 'sendMainChat', 'user': nickname, 'message': $textArea.val() });
+
             $textArea.val("");
         }
 
@@ -41,7 +39,9 @@
             $('#chatLoginContainer').fadeOut(function() {
                 nickname = $('#chatLoginInput').val();
                 $('#chatContainer').fadeIn( startChat );
-            })
+            });
+
+            window.setInterval(updateChat, 3000);
         }
 
         function typingAreaEventHandler(event) {
@@ -50,17 +50,33 @@
             //enter button click
             if(event.which == 13) {
                 event.preventDefault();
+
                 $('#bottomContainer').find('button').trigger('click');
             }
         }
 
-        function unloadWindowEventHandler() {
-            alert('unloading');
-            $.post("server/controls.php", {'action': 'logout', 'user': nickname } );
-        }
-
         function updateChat() {
-            //this fucntion will update the proper fields every 3 seconds... optimizations will be done if there is little or no conversation
+            $.post("server/controls.php", {'action': 'update'}, function(e) {
+                var json = $.parseJSON(e),
+                    $onlineUsersList = $('#chatOnlineUsersList'),
+                    $chatMainArea = $('#chatMainArea');
+
+                $onlineUsersList.find('li').remove();
+                $('#chatMainArea').find('p').remove();
+
+                json.update.chatHistory.reverse();
+
+                for(var i=0; i < json.update.onlineUsers.length; i++) {
+                    $onlineUsersList.append('<li>'+ json.update.onlineUsers[i] + '</li>');
+                }
+
+                for(var m=0; m <= json.update.chatHistory.length-1; m++) {
+                    $chatMainArea.append('<p>' + json.update.chatHistory[m].username + ': '+ json.update.chatHistory[m].message + '</p>');
+                }
+
+                $chatMainArea.animate({"scrollTop": $chatMainArea[0].scrollHeight}, "slow");
+                $('#chatNumUsers').html(json.update.onlineUsers.length);
+            });
         }
 
         function setupEvents() {
@@ -70,8 +86,8 @@
             $('#chatLoginButton').on('click', loginButtonClickHandler);
             $('#bottomContainer').find('textarea').on('keydown', function(event) { typingAreaEventHandler(event) });
 
-            window.onbeforeunload = unloadWindowEventHandler;
-            window.setInterval(updateChat, 3000);
+            window.refresh = $.post("server/controls.php", {'action': 'logout', 'user': nickname } );
+            window.onbeforeunload = function() { $.post("server/controls.php", {'action': 'logout', 'user': nickname } ); };
         }
 
         this.init = function() {

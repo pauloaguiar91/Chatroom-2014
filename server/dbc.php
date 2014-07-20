@@ -14,6 +14,8 @@ class DBC {
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
+            $this->sendMainChat('SERVER', $username . ' has come online.');
+
         } catch(PDOException $e) {
             echo $e->getMessage();
         }
@@ -21,12 +23,10 @@ class DBC {
 
     public function getOnlineUsers() {
         try {
+            $onlineUsers = array();
             $db = new PDO('mysql:host=localhost;port=3306;dbname=paguiarc_dev_chatroom', DB_USERNAME, DB_PASSWORD);
             $stmt = $db->prepare("SELECT * FROM users");
             $stmt->execute();
-
-            $onlineUsers = array();
-
             $dataPull = $stmt->fetchAll();
 
             for($i=0; $i < count($dataPull); $i++) {
@@ -41,14 +41,46 @@ class DBC {
     }
 
     public function removeFromActiveUsers($username) {
+        if(!$username) {
+            return;
+        }
         try {
             $db = new PDO('mysql:host=localhost;port=3306;dbname=paguiarc_dev_chatroom', DB_USERNAME, DB_PASSWORD);
             $stmt = $db->prepare("DELETE FROM users WHERE username = :username");
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
+            $this->sendMainChat('SERVER', $username . 'has logged out.');
+
         } catch(PDOException $e) {
             echo $e->getMessage();
+        }
+    }
+
+    public function getChatHistory() {
+        try {
+            $db = new PDO('mysql:host=localhost;port=3306;dbname=paguiarc_dev_chatroom', DB_USERNAME, DB_PASSWORD);
+            $stmt = $db->prepare("SELECT * FROM history ORDER BY timestamp DESC LIMIT 50");
+            $stmt->execute();
+            $messageHistory = $stmt->fetchAll();
+
+            return $messageHistory;
+
+        } catch(PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function sendMainChat($user, $message) {
+        try {
+            $db = new PDO('mysql:host=localhost;port=3306;dbname=paguiarc_dev_chatroom', DB_USERNAME, DB_PASSWORD);
+            $stmt = $db->prepare("INSERT INTO history(username, message) VALUES(:username, :message)");
+            $stmt->bindParam(':username', $user);
+            $stmt->bindParam(':message', $message);
+            $stmt->execute();
+
+        } catch(PDOException $e) {
+            return $e->getMessage();
         }
     }
 }

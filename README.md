@@ -5,20 +5,22 @@ Fully open and customizable html5 chat room.
 
 This is an ongoing project.
 
-When the live site is ready is will be posted here.
+Currently located at http://paguiar.com
 
 The Road Ahead:
 
-Chatloop , every 3 seconds poll to server for latest messages/online users
-Messages need to be stored in the DB, as well as fetched from
+Better solution for logging users out (onbeforeunload event is unstable)
+Better overall default UI
+custom colors and fonts
+user icons (upload or defaults)
 settings feature implemented
 help feature implemented
 
 Tech Used:
 
-HTML
-SCSS
-PHP
-Javascript
+HTML,
+SCSS,
+PHP,
+Javascript,
 MySql(innoDB)
 
