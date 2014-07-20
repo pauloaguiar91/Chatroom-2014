@@ -8,11 +8,13 @@
         }
 
         function loadUsers() {
-            $.getJSON("server/ChatController.php", {}, function(e) {
-                //e.returnvalues
-            });
+            $.post("server/controls.php", {'action': 'login', 'user': nickname }, function(e) {
+                var json = $.parseJSON(e);
 
-            $('#chatOnlineUsersList').append('<li>'+nickname+'</li>');
+                for(var i=0; i < json.users.length; i++) {
+                    $('#chatOnlineUsersList').append('<li>'+ json.users[i] + '</li>');
+                }
+            });
         }
 
         function startChat() {
@@ -52,12 +54,24 @@
             }
         }
 
+        function unloadWindowEventHandler() {
+            alert('unloading');
+            $.post("server/controls.php", {'action': 'logout', 'user': nickname } );
+        }
+
+        function updateChat() {
+            //this fucntion will update the proper fields every 3 seconds... optimizations will be done if there is little or no conversation
+        }
+
         function setupEvents() {
             $('#bottomContainer').find('button').on('click', sendButtonClickHandler);
             $('#chatSettingsIcon').on('click', settingsIconClickHandler);
             $('#chatHelpIcon').on('click', helpIconClickHandler);
             $('#chatLoginButton').on('click', loginButtonClickHandler);
             $('#bottomContainer').find('textarea').on('keydown', function(event) { typingAreaEventHandler(event) });
+
+            window.onbeforeunload = unloadWindowEventHandler;
+            window.setInterval(updateChat, 3000);
         }
 
         this.init = function() {
