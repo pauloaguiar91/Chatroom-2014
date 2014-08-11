@@ -11,12 +11,8 @@ switch($action) {
         $onlineUsers = $controller->login($user);
         break;
 
-    case 'logout':
-        $controller->logout($user);
-        break;
-
     case 'update':
-        $updateInfo = $controller->update();
+        $updateInfo = $controller->update($user);
         $return['update'] = $updateInfo;
         break;
 

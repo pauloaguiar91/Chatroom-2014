@@ -9,9 +9,11 @@ class DBC {
 
     public function insertIntoActiveUsers($username) {
         try {
+            $timestamp = strtotime("now");
             $db = new PDO('mysql:host=localhost;port=3306;dbname=paguiarc_dev_chatroom', DB_USERNAME, DB_PASSWORD);
-            $stmt = $db->prepare("INSERT INTO users(username) VALUES (:username)");
+            $stmt = $db->prepare("INSERT INTO users(username, timestamp) VALUES (:username, :timestamp)");
             $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':timestamp', $timestamp);
             $stmt->execute();
 
             $this->sendMainChat('SERVER', $username . ' has come online.');
@@ -29,14 +31,42 @@ class DBC {
             $stmt->execute();
             $dataPull = $stmt->fetchAll();
 
-            for($i=0; $i < count($dataPull); $i++) {
+            for($i = 0; $i < count($dataPull); $i++) {
                 $onlineUsers[$i] = $dataPull[$i]['username'];
+
+                //check if timestamp is older than 30 seconds, if so. removeActiveUser with that name;$currentTime
+                $tenSecondTimestamp = strtotime("-10 seconds");
+
+                if($dataPull[$i]['timestamp'] < $tenSecondTimestamp) {
+                    $this->removeFromActiveUsers($onlineUsers[$i]);
+                    array_splice($onlineUsers, $i);
+                }
             }
 
             return $onlineUsers;
 
+        } catch(Exception $e) {
+            return $e;
+        }
+    }
+
+    public function updateTimestamp($username) {
+        $date = strtotime("now");
+
+        try {
+            $db = new PDO('mysql:host=localhost;port=3306;dbname=paguiarc_dev_chatroom', DB_USERNAME, DB_PASSWORD);
+            $stmt = $db->prepare("UPDATE users SET timestamp = :timestamp WHERE username = :username");
+            $stmt->bindParam(':timestamp', $date);
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+
+            $values['name'] = $username;
+            $values['stamp'] = $date;
+
+            return $values;
+
         } catch(PDOException $e) {
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -50,7 +80,7 @@ class DBC {
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
-            $this->sendMainChat('SERVER', $username . 'has logged out.');
+            $this->sendMainChat('SERVER:', $username . ' has logged out.');
 
         } catch(PDOException $e) {
             echo $e->getMessage();

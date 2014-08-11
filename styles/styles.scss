@@ -6,6 +6,8 @@ div {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  font-family: Helvetica;
 }
 
 .nopadding {
@@ -16,9 +18,46 @@ body {
   text-align: center;
 }
 
+#chatLoginContainer {
+  margin-top: 5%;
+  color: white;
+  background: darkslateblue;
+  height: 600px;
+
+  h1 {
+    margin-top: 15%;
+  }
+
+  input {
+    height: 45px;
+    color: darkslateblue;
+    font-size: 20px;
+    text-align: center;
+
+    &::-webkit-input-placeholder { color: darkslateblue; }
+    &:-moz-placeholder { color: darkslateblue; }
+    &::-moz-placeholder { color: darkslateblue; }
+    &:-ms-input-placeholder { color: darkslateblue; }
+
+  }
+
+  button {
+    height: 45px;
+    width: 100px;
+    color: darkslateblue;
+    border: 0;
+    background: white;
+
+    position: relative;
+    top: -2px;
+    left: 5px;
+  }
+}
+
 #chatContainer {
   display: none;
   border: 2px solid darkslateblue;
+  margin-top: 5%;
 }
 
 #chatFrame {
@@ -129,6 +168,27 @@ body {
     background: white;
     border: 0;
     border-left: 2px solid darkslateblue;
+  }
+}
+#chatHelpContainer, #chatSettingsContainer {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  background: white;
+  border: 2px solid darkslateblue;
+  margin-left: -245px;
+  max-width: 500px;
+  height: 500px;
+  width: 100%;
+  border: 2px solid red;
+  z-index: 5;
+
+  .chatSettingsClose {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 26px;
   }
 }
 

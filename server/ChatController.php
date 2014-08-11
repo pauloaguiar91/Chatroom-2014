@@ -14,7 +14,7 @@ class ChatController {
         } catch(Exception $e) {
             return $e;
         }
-       }
+   }
 
     public function logout($username) {
         try {
@@ -25,12 +25,13 @@ class ChatController {
         }
     }
 
-    public function update() {
+    public function update($username) {
         $updateInfo = array();
         try {
             $DB = new DBC();
-            $updateInfo['onlineUsers'] = $DB->getOnlineUsers();
+            $updateInfo['updateTimestamp'] = $DB->updateTimestamp($username);
             $updateInfo['chatHistory'] = $DB->getChatHistory();
+            $updateInfo['onlineUsers'] = $DB->getOnlineUsers();
 
             return $updateInfo;
         } catch(Exception $e) {

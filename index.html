@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Ajax PHP Chatroom</title>
+    <title>paguiar.com || ALPHA</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
     <link href="styles/styles.css" rel="stylesheet" />
 </head>
@@ -8,12 +8,11 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <button class="btn btn-warning">ALPHA 0.1</button>
-            <h1>Javascript AJAX PHP Chatroom</h1>
+            <button class="btn btn-warning" style="margin: 0 auto">ALPHA 0.15</button>
             <div id="chatLoginContainer" class="div.col-md-offset-3 col-lg-8 col-lg-offset-2 nopadding">
-                <h1>Hi there, whats your name?</h1>
-                <input id="chatLoginInput" placeholder="Enter your nickname"> </input>
-                <button id="chatLoginButton">enter</button>
+                <h1>Login</h1>
+                <input id="chatLoginInput" placeholder="Enter your nickname" /><!--
+             --><button id="chatLoginButton">enter</button>
             </div>
             <div id="chatContainer" class="col-xs-12 col-lg-8 col-lg-offset-2 nopadding">
                 <div id="chatFrame" class="">
@@ -31,6 +30,18 @@
                             <div id="chatHelpIcon" class="glyphicon glyphicon-question-sign"></div>
                             <div id="chatSettingsIcon" class="glyphicon glyphicon-list-alt"></div>
                         </div>
+                    </div>
+                </div>
+                <div id="chatSettingsContainer">
+                    <div id="chatSettingsFrame">
+                        <div class="chatSettingsClose glyphicon glyphicon-remove"></div>
+                        <h1>Settings Menu</h1>
+                    </div>
+                </div>
+                <div id="chatHelpContainer">
+                    <div id="chatHelpFrame">
+                        <div class="chatSettingsClose glyphicon glyphicon-remove"></div>
+                        <h1>Help</h1>
                     </div>
                 </div>
             </div>

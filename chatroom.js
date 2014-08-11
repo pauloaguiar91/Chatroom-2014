@@ -28,11 +28,11 @@
         }
 
         function settingsIconClickHandler() {
-
+            $('#chatHelpContainer').fadeIn();
         }
 
         function helpIconClickHandler() {
-
+            $('#chatSettingsContainer').fadeIn();
         }
 
         function loginButtonClickHandler() {
@@ -56,27 +56,33 @@
         }
 
         function updateChat() {
-            $.post("server/controls.php", {'action': 'update'}, function(e) {
+            $.post("server/controls.php", {'action': 'update', 'user': nickname }, function(e) {
                 var json = $.parseJSON(e),
                     $onlineUsersList = $('#chatOnlineUsersList'),
                     $chatMainArea = $('#chatMainArea');
 
-                $onlineUsersList.find('li').remove();
-                $('#chatMainArea').find('p').remove();
+                if(json.update.onlineUsers instanceof Array) {
+                    $onlineUsersList.find('li').remove();
 
-                json.update.chatHistory.reverse();
+                    for(var i=0; i < json.update.onlineUsers.length; i++) {
+                        $onlineUsersList.append('<li>'+ json.update.onlineUsers[i] + '</li>');
+                    }
 
-                for(var i=0; i < json.update.onlineUsers.length; i++) {
-                    $onlineUsersList.append('<li>'+ json.update.onlineUsers[i] + '</li>');
+                    $('#chatNumUsers').html(json.update.onlineUsers.length);
+                    $('#chatMainArea').find('p').remove();
+
+                    json.update.chatHistory.reverse();
+                    for(var m=0; m <= json.update.chatHistory.length-1; m++) {
+                        $chatMainArea.append('<p>' + json.update.chatHistory[m].username + ': '+ json.update.chatHistory[m].message + '</p>');
+                    }
+
+                    $chatMainArea.animate({"scrollTop": $chatMainArea[0].scrollHeight}, "slow");
                 }
-
-                for(var m=0; m <= json.update.chatHistory.length-1; m++) {
-                    $chatMainArea.append('<p>' + json.update.chatHistory[m].username + ': '+ json.update.chatHistory[m].message + '</p>');
-                }
-
-                $chatMainArea.animate({"scrollTop": $chatMainArea[0].scrollHeight}, "slow");
-                $('#chatNumUsers').html(json.update.onlineUsers.length);
             });
+        }
+
+        function chatSettingsCloseClickHandler() {
+            $('#chatSettingsContainer, #chatHelpContainer').fadeOut();
         }
 
         function setupEvents() {
@@ -84,10 +90,8 @@
             $('#chatSettingsIcon').on('click', settingsIconClickHandler);
             $('#chatHelpIcon').on('click', helpIconClickHandler);
             $('#chatLoginButton').on('click', loginButtonClickHandler);
+            $('.chatSettingsClose').on('click', chatSettingsCloseClickHandler);
             $('#bottomContainer').find('textarea').on('keydown', function(event) { typingAreaEventHandler(event) });
-
-            window.refresh = $.post("server/controls.php", {'action': 'logout', 'user': nickname } );
-            window.onbeforeunload = function() { $.post("server/controls.php", {'action': 'logout', 'user': nickname } ); };
         }
 
         this.init = function() {
