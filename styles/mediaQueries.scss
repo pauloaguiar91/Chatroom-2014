@@ -1,8 +1,16 @@
-@media(max-width: 768px) {
+@media screen and (max-width: 768px) {
 
 }
 
-@media(max-width: 420px) {
+@media screen and (max-width: 500px) {
+  #chatSettingsContainer, #chatHelpContainer {
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 420px) {
   #bottomContainer textarea {
     width: 55%;
   }
@@ -14,10 +22,8 @@
       left: 0
     }
   }
-
-
 }
 
-@media (min-width: 320px) {
+@media screen and (min-width: 320px) {
 
 }

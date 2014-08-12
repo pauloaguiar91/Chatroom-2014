@@ -28,11 +28,11 @@
         }
 
         function settingsIconClickHandler() {
-            $('#chatHelpContainer').fadeIn();
+            $('#chatSettingsContainer').fadeIn();
         }
 
         function helpIconClickHandler() {
-            $('#chatSettingsContainer').fadeIn();
+            $('#chatHelpContainer').fadeIn();
         }
 
         function loginButtonClickHandler() {
@@ -41,7 +41,7 @@
                 $('#chatContainer').fadeIn( startChat );
             });
 
-            window.setInterval(updateChat, 3000);
+            window.setInterval(updateChat, 2500);
         }
 
         function typingAreaEventHandler(event) {
@@ -81,6 +81,10 @@
             });
         }
 
+        function selectBoxFontClickHandler(selectedFont) {
+            $('#chatMainArea').css('font-family', selectedFont);
+        }
+
         function chatSettingsCloseClickHandler() {
             $('#chatSettingsContainer, #chatHelpContainer').fadeOut();
         }
@@ -92,6 +96,7 @@
             $('#chatLoginButton').on('click', loginButtonClickHandler);
             $('.chatSettingsClose').on('click', chatSettingsCloseClickHandler);
             $('#bottomContainer').find('textarea').on('keydown', function(event) { typingAreaEventHandler(event) });
+            $('#selectBoxFont').on('change', function() { selectBoxFontClickHandler(this.value) } );
         }
 
         this.init = function() {

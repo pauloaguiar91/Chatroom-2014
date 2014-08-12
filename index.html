@@ -8,7 +8,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <button class="btn btn-warning" style="margin: 0 auto">ALPHA 0.15</button>
+            <button class="btn btn-warning" style="margin: 0 auto">ALPHA 0.16</button>
             <div id="chatLoginContainer" class="div.col-md-offset-3 col-lg-8 col-lg-offset-2 nopadding">
                 <h1>Login</h1>
                 <input id="chatLoginInput" placeholder="Enter your nickname" /><!--
@@ -36,12 +36,26 @@
                     <div id="chatSettingsFrame">
                         <div class="chatSettingsClose glyphicon glyphicon-remove"></div>
                         <h1>Settings Menu</h1>
+                        <label>Main Chat Font</label>
+                        <select id="selectBoxFont">
+                            <option value="Helvetica">Default (Helvetica)</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Georgia">Georgia</option>
+                        </select>
                     </div>
                 </div>
                 <div id="chatHelpContainer">
                     <div id="chatHelpFrame">
                         <div class="chatSettingsClose glyphicon glyphicon-remove"></div>
                         <h1>Help</h1>
+                        <p>This is version 0.16 of the application. Here is a list of known issues</p>
+                        <ul>
+                            <li>Double usernames are permitted</li>
+                            <li>Need client side message display to reduce feeling of lag</li>
+                        </ul>
+                        <br> <br>
+                        If you notice any issues not on this list please send a report to pauloaguiar@live.com
                     </div>
                 </div>
             </div>
@@ -54,5 +68,5 @@
 </body>
 
 <footer>
-
+    This application was last updated August 12, 2014.
 </footer>

@@ -170,6 +170,7 @@ body {
     border-left: 2px solid darkslateblue;
   }
 }
+
 #chatHelpContainer, #chatSettingsContainer {
   display: none;
   position: absolute;
@@ -177,19 +178,35 @@ body {
   left: 50%;
   background: white;
   border: 2px solid darkslateblue;
-  margin-left: -245px;
+  margin-left: -250px;
   max-width: 500px;
   height: 500px;
   width: 100%;
-  border: 2px solid red;
   z-index: 5;
+
+  h1 {
+    margin-top: 10px;
+  }
+
+  ul li {
+    text-align: left;
+    list-style: decimal;
+  }
 
   .chatSettingsClose {
     position: absolute;
     top: 5px;
     right: 5px;
     font-size: 26px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
+}
+
+footer {
+  margin-top: 100px;
 }
 
 @import 'mediaQueries.scss';

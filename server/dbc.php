@@ -80,7 +80,7 @@ class DBC {
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
-            $this->sendMainChat('SERVER:', $username . ' has logged out.');
+            $this->sendMainChat('SERVER', $username . ' has logged out.');
 
         } catch(PDOException $e) {
             echo $e->getMessage();
